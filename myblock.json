@@ -1,0 +1,21 @@
+[{
+  "type": "hand_goo",
+  "message0": "グーを出す",
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "hand_pa",
+  "message0": "パーを出す",
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "hand_choki",
+  "message0": "チョキを出す",
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}]

@@ -40,7 +40,7 @@ function setup() {
 
 	capture.elt.onloadeddata = function () {
 		videoDataLoaded = true;
-		canvas = createCanvas(capture.width, capture.height);
+		let canvas = createCanvas(600, 480);
         canvas.parent('show-capture')
 	}
 

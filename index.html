@@ -1,20 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-	<meta charset="utf-8" />
-	<!-- keep the line below for OpenProcessing compatibility -->
+  <head>
+    <meta charset="utf-8" />
+    <!-- handpose表示用 -->
     <script src="https://cdn.jsdelivr.net/npm/p5@1.3.1/lib/p5.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@1.7.4/dist/tf-core.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@1.7.4/dist/tf-converter.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/handpose@0.0.4/dist/handpose.min.js"></script>
-	<script src="handpose.js"></script>
-	<link rel="stylesheet" type="text/css" href="style.css">
-</head>
+    <script src="handpose.js"></script>
+    <!-- Blocklyのライブラリ -->
+    <script src="blockly/blockly_compressed.js"></script>
+    <script src="blockly/blocks_compressed.js"></script>
+    <script src="blockly/javascript_compressed.js"></script>
+    <script src="blockly/msg/js/ja.js"></script>
+    <!-- 自作ブロックの定義 -->
+    <script src="myblock.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <!-- ツールボックスの定義 -->
+    <xml id="toolbox">
+      <block type="hand_goo"></block>
+      <block type="hand_pa"></block>
+      <block type="hand_choki"></block>
+    </xml>
+  </head>
 
-<body>   
-	<div id="capture-show"></div>
-    <textarea id="hands" cols="30" rows="10"></textarea>
-</body>
+  <body>
+    <div
+      class="inlines"
+      style="
+        display: flex;
+        width: 100%;
+        margin-top: 15px;
+        justify-content: space-around;
+        align-items: center;
+      "
+    >
+      <div
+        class="blockly-item"
+        style="height: 480px; width: 600px; display: inline-flex"
+      >
+        <div class="blockly-item_inner" style="display: inline">
+          <div id="blocklyDiv" style="height: 480px; width: 600px"></div>
+          <button onclick="doCode()">コードの実行</button>
+          <textarea id="blocky-outtext" cols="30" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="hands-item" style="display: inline-flex">
+        <div class="hands-item_inner" style="height: 480px; width: 600px">
+          <div id="show-capture"></div>
+          <textarea id="hands" cols="30" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+    <script>
+      //Blocklyをdivにはめ込み
+      var workspace = Blockly.inject("blocklyDiv", {
+        toolbox: document.getElementById("toolbox"),
+      });
 
+      function doCode() {
+        document.getElementById("blocky-outtext").textContent = "";
+        //ブロックからプログラム（文字列）を作成
+        var code = Blockly.JavaScript.workspaceToCode(workspace);
+        //プログラムを実行
+        try {
+          eval(code);
+        } catch (e) {
+          alert(e);
+        }
+      }
+    </script>
+  </body>
 </html>
