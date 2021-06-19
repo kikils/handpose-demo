@@ -45,6 +45,14 @@ function setup() {
 	}
 
 	capture.hide();
+    button = createButton('handposeをオンにする');
+    button.position(800, 50)
+    button.mousePressed(toggleCamera)
+}
+
+let toggleOn = false
+function toggleCamera() {
+    toggleOn = !toggleOn
 }
 
 function detectHands(hands) {
@@ -111,7 +119,7 @@ function detectHands(hands) {
 
 handList = [];
 function draw() {
-	if (handposeModel && videoDataLoaded) {
+	if (toggleOn && handposeModel && videoDataLoaded) {
 		handposeModel.estimateHands(capture.elt).then(function (_hands) {
 			myHands = _hands;
 			if (!myHands.length) {
@@ -142,7 +150,7 @@ function draw() {
 	textAlign(CENTER, CENTER);
 	// textSize(135);
 	// text(String.fromCodePoint(jankenFace), width * 0.25, height * 0.6);
-	textSize(200);
+    textSize(200);
 	text(String.fromCodePoint(jankenHand), width * 0.15, height * 0.5);
 	pop();
 
