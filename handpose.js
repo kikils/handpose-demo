@@ -29,7 +29,7 @@ let bendFingersNum = 0;
 let jankenHand = "";
 let jankenFace = emojiFace[0];
 
-handpose.load().then(function (_model) {
+handpose.load(detectionConfidence=1.0).then(function (_model) {
 	statusText = "Model loaded."
 	handposeModel = _model;
 })
@@ -140,7 +140,7 @@ function draw() {
 	image(capture, 0, 0, width, height);
 
     outHand = detectHands(myHands)
-    if(outHand != '' && outHand != handList[handList.length - 1]){
+    if(outHand != null && outHand != '' && outHand != handList[handList.length - 1]){
         handList.push(outHand)
         document.getElementById('hands').textContent = handList
     }
