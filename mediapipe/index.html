@@ -2,14 +2,15 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1620247984/camera_utils.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.5.1623725837/control_utils.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3.1620248257/drawing_utils.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.3.1620248595/hands.min.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
   <div class="container">
+    <textarea id="out_text" cols="30" rows="10"></textarea>
     <video class="input_video"></video>
     <canvas class="output_canvas" width="640px" height="360px"></canvas>
   </div>
@@ -35,6 +36,7 @@ function onResults(results) {
 }
 
 const hands = new Hands({locateFile: (file) => {
+  document.getElementById('out_text').textContent = 'here'
   return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
 }}); 
 hands.setOptions({
