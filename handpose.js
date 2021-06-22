@@ -34,10 +34,8 @@ handpose.load(detectionConfidence=1.0).then(function (_model) {
 	handposeModel = _model;
 })
 
-
 function setup() {
-	capture = createCapture(VIDEO);
-
+    capture = createCapture(VIDEO);
 	capture.elt.onloadeddata = function () {
 		videoDataLoaded = true;
 		let canvas = createCanvas(600, 480);
@@ -111,6 +109,14 @@ function detectHands(hands) {
 	}
 }
 
+let snapshots = [];
+let checkTake = false
+function takesnapshot() {
+    snapshots.push(capture.get())
+    return
+}
+
+
 handList = [];
 let timer = 10;
 function draw() {
@@ -152,7 +158,7 @@ function draw() {
     push()
     textAlign(CENTER, CENTER);
     textSize(200);
-    if(handposeModel && frameCount % 60 == 0 && timer > 0) {
+    if(handposeModel && videoDataLoaded && frameCount % 60 == 0 && timer > 0) {
         timer--;
     }
     text(timer, width * 0.5, height * 0.5);
@@ -160,12 +166,32 @@ function draw() {
         timer = ''
         text('POSE!!', width * 0.5, height * 0.5)
         toggleOn = true
+        if(!checkTake) {
+            snapshots.push(get())
+            checkTake = true
+        }
         setTimeout(()=>{
             timer = 10
             toggleOn = false
+            checkTake = false
         }, 2000)
     }
     pop();
+
+    push()
+    let x = 0
+    let y = height * 0.75
+    let w = 80
+    let h = 60
+    for (var i=0; i< snapshots.length;i++){
+        image(snapshots[i],x,y,w,h);
+        x= x + w ;
+        if (x>width){
+          x=0;
+          y=y + h;
+        }
+    }
+    pop()
 
 	fill(255, 0, 0);
 	text(statusText, 2, 60);
