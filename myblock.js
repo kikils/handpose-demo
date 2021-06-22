@@ -30,20 +30,20 @@ Blockly.defineBlocksWithJsonArray(
 
 Blockly.JavaScript['hand_goo'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = 'console.log("グー");document.getElementById("blocky-outtext").textContent = document.getElementById("blocky-outtext").value + "グー";\n';
+  var code = 'グー,';
   
   return code;
 };
 
 Blockly.JavaScript['hand_pa'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = 'console.log("パー");document.getElementById("blocky-outtext").textContent = document.getElementById("blocky-outtext").value + "パー";\n';
+  var code = 'パー,';
 
   return code;
 };
 
 Blockly.JavaScript['hand_choki'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = 'console.log("チョキ");document.getElementById("blocky-outtext").textContent = document.getElementById("blocky-outtext").value + "チョキ";\n';
+  var code = 'チョキ,';
   return code;
 };

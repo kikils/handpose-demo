@@ -59,15 +59,14 @@
       });
 
       function doCode() {
+        program_hands = []
         document.getElementById("blocky-outtext").textContent = "";
         //ブロックからプログラム（文字列）を作成
         var code = Blockly.JavaScript.workspaceToCode(workspace);
         //プログラムを実行
-        try {
-          eval(code);
-        } catch (e) {
-          alert(e);
-        }
+        program_hands.push(code.split(','))
+        console.log(program_hands, program_hands.length)
+        document.getElementById("blocky-outtext").textContent = program_hands;
       }
     </script>
   </body>
