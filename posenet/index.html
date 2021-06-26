@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>posenet</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.3.1/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <p id="status">Loading model...</p>
+  <div id="items" style="display: flex;">
+    <div id="show-capture"></div>
+    <img src="brock_image.png" alt="" srcset="" width="auto" height="auto">
+  </div>
+  <script src="sketch.js"></script>
+</body>
+</html>
