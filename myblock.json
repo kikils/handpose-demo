@@ -18,4 +18,23 @@
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "banzai",
+  "message0": "%1",
+  "args0": [
+    {
+      "type": "field_image",
+      "src": "https://2.bp.blogspot.com/-C_ZLBrSz3B0/Uvy5z1KOCJI/AAAAAAAAdqE/Jtqur1Qwd6o/s800/banzai_boy.png",
+      "width": 100,
+      "height": 100,
+      "alt": "*",
+      "flipRtl": false
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
 }]
