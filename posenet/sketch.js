@@ -42,6 +42,7 @@ function draw() {
   }
   if(poses.keypoints) {
     drawKeypoints();
+    checkPose()
   }
 
   // We can call both functions to draw all keypoints and the skeletons
@@ -60,6 +61,27 @@ function drawKeypoints()  {
         pop()
       }
     }
+}
+const parts = []
+function checkPose() {
+  const keyPoints = poses.keypoints
+  for (let i = 0; i < keyPoints.length; i++) {
+      const keypoint = keyPoints[i];
+      if (keypoint.score > 0.3) {
+        parts[keypoint.part] = {x: keypoint.position.x, y: keypoint.position.y}
+      }
+    }
+  if ('leftShoulder'in parts && 'rightShoulder' in parts && 'leftElbow' in parts && 'rightElbow' in parts) {
+    if (parts['leftShoulder'].y > parts['leftElbow'].y && parts['rightShoulder'].y > parts['rightElbow'].y) {
+      console.log('両手上げている')
+    }
+    else if (parts['leftShoulder'].y > parts['leftElbow'].y){
+      console.log('左手上げている')
+    }
+    else if (parts['rightShoulder'].y > parts['rightElbow'].y){
+      console.log('右手上げている')
+    }
+  }
 }
 
 // A function to draw the skeletons
