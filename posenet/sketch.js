@@ -57,14 +57,17 @@ function drawKeypoints()  {
         push()
         fill(255, 0, 0);
         noStroke();
-        ellipse(keypoint.position.x, keypoint.position.y, 30, 30);
+        ellipse(keypoint.position.x, keypoint.position.y, 10, 10);
         pop()
       }
     }
 }
 
 let parts = []
-function checkParam(up, down) {
+function checkParamX(left, right) {
+  return left in parts && right in parts && parts[left].x < parts[right].x
+}
+function checkParamY(up, down) {
   return up in parts && down in parts && parts[up].y < parts[down].y
 }
 
@@ -77,11 +80,14 @@ function checkPose() {
         parts[keypoint.part] = {x: keypoint.position.x, y: keypoint.position.y}
       }
   }
-  if ((checkParam('leftElbow', 'leftShoulder') && checkParam('rightElbow', 'rightShoulder')) || (checkParam('leftWrist', 'leftShoulder') && checkParam('rightWrist', 'rightShoulder'))) {
+  // if ((checkParamY('leftEar', 'leftElbow') && checkParamY('rightElbow', 'rightShoulder')) || (checkParamY('rightEar', 'rightWrist') && checkParamY('rightWrist', 'rightShoulder'))) {
+  //   console.log('ウルトラマンポーズ')
+  // }
+  if ((checkParamX('leftElbow', 'leftShoulder') && (checkParamY('leftElbow', 'leftShoulder')) || (checkParamX('leftWrist', 'leftShoulder') && checkParamY('leftWrist', 'leftShoulder'))) && ((checkParamX('rightShoulder', 'rightElbow') && checkParamY('rightElbow', 'rightShoulder')) || ((checkParamX('rightShoulder', 'rightWrist') && checkParamY('rightWrist', 'rightShoulder'))))) {
     console.log('両手上げている')
-  } else if (checkParam('leftElbow', 'leftShoulder') || checkParam('leftWrist', 'leftShoulder')) {
+  } else if ((checkParamX('leftElbow', 'leftShoulder') && (checkParamY('leftElbow', 'leftShoulder')) || (checkParamX('leftWrist', 'leftShoulder') && checkParamY('leftWrist', 'leftShoulder')))) {
     console.log('左手上げている')
-  } else if (checkParam('rightElbow', 'rightShoulder') || checkParam('rightWrist', 'rightShoulder')) {
+  } else if ((checkParamX('rightShoulder', 'rightElbow') && checkParamY('rightElbow', 'rightShoulder')) || ((checkParamX('rightShoulder', 'rightWrist') && checkParamY('rightWrist', 'rightShoulder')))) {
     console.log('右手上げている')
   }
 }
