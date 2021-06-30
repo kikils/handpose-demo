@@ -53,7 +53,7 @@ function drawKeypoints()  {
   const keyPoints = poses.keypoints
   for (let i = 0; i < keyPoints.length; i++) {
       const keypoint = keyPoints[i];
-      if (keypoint.score > 0.3) {
+      if (keypoint.score > 0.5) {
         push()
         fill(255, 0, 0);
         noStroke();
@@ -62,25 +62,27 @@ function drawKeypoints()  {
       }
     }
 }
-const parts = []
+
+let parts = []
+function checkParam(up, down) {
+  return up in parts && down in parts && parts[up].y < parts[down].y
+}
+
 function checkPose() {
+  parts = []
   const keyPoints = poses.keypoints
   for (let i = 0; i < keyPoints.length; i++) {
       const keypoint = keyPoints[i];
-      if (keypoint.score > 0.3) {
+      if (keypoint.score > 0.5) {
         parts[keypoint.part] = {x: keypoint.position.x, y: keypoint.position.y}
       }
-    }
-  if ('leftShoulder'in parts && 'rightShoulder' in parts && 'leftElbow' in parts && 'rightElbow' in parts) {
-    if (parts['leftShoulder'].y > parts['leftElbow'].y && parts['rightShoulder'].y > parts['rightElbow'].y) {
-      console.log('両手上げている')
-    }
-    else if (parts['leftShoulder'].y > parts['leftElbow'].y){
-      console.log('左手上げている')
-    }
-    else if (parts['rightShoulder'].y > parts['rightElbow'].y){
-      console.log('右手上げている')
-    }
+  }
+  if ((checkParam('leftElbow', 'leftShoulder') && checkParam('rightElbow', 'rightShoulder')) || (checkParam('leftWrist', 'leftShoulder') && checkParam('rightWrist', 'rightShoulder'))) {
+    console.log('両手上げている')
+  } else if (checkParam('leftElbow', 'leftShoulder') || checkParam('leftWrist', 'leftShoulder')) {
+    console.log('左手上げている')
+  } else if (checkParam('rightElbow', 'rightShoulder') || checkParam('rightWrist', 'rightShoulder')) {
+    console.log('右手上げている')
   }
 }
 
