@@ -70,6 +70,15 @@ function checkParamX(left, right) {
 function checkParamY(up, down) {
   return up in parts && down in parts && parts[up].y < parts[down].y
 }
+function checkRangeY(base, comp) {
+  let x = 0
+  if ('leftShoulder' in parts && 'rightShoulder' in parts) {
+    x = (parts['rightShoulder'].x - parts['leftShoulder'].x) / 3
+  } else if ('leftEye' in parts && 'rightEye' in parts) {
+    x = (parts['rightEye'].x - parts['leftEye'].x) * 1.2
+  }
+  return base in parts && comp in parts && parts[base].y - x <= parts[comp].y && parts[comp].y <= parts[base].y + x
+}
 
 function checkPose() {
   parts = []
@@ -80,14 +89,27 @@ function checkPose() {
         parts[keypoint.part] = {x: keypoint.position.x, y: keypoint.position.y}
       }
   }
-  // if ((checkParamY('leftEar', 'leftElbow') && checkParamY('rightElbow', 'rightShoulder')) || (checkParamY('rightEar', 'rightWrist') && checkParamY('rightWrist', 'rightShoulder'))) {
+
+  // 左手が目の外側にあるか判定
+  const isLeftHandEarSideX = checkParamX('leftElbow', 'leftEye') || checkParamX('leftWrist', 'leftEye')
+  // 右手が目の外側にあるか判定
+  const isRightHandEarSideX = checkParamX('rightEye', 'rightElbow') || checkParamX('rightEyerightWrist', 'rightWrist')
+  // 左手が肩らへんにあるか判定
+  const isLeftHandUnderEarY = checkRangeY('leftShoulder', 'leftElbow', 30)
+  // 右手が肩らへんにあるか判定
+  const isRightHandUnderEarY = checkRangeY('rightShoulder', 'rightElbow', 30)
+  // 左手が肩よりも上がっているかどうか判定
+  const isLeftHandUp = (checkParamX('leftElbow', 'leftShoulder') && (checkParamY('leftElbow', 'leftShoulder'))) || (checkParamX('leftWrist', 'leftShoulder') && checkParamY('leftWrist', 'leftShoulder'))
+  const isRightHandUp = (checkParamX('rightShoulder', 'rightElbow') && checkParamY('rightElbow', 'rightShoulder')) || ((checkParamX('rightShoulder', 'rightWrist') && checkParamY('rightWrist', 'rightShoulder')))
+  if (isLeftHandEarSideX && isRightHandEarSideX && isLeftHandUnderEarY && isRightHandUnderEarY) {
+    console.log('TT')
+  // } else if (isLeftHandEarSideX && isLeftHandUnderEarY && isLeftHandUp && isRightHandUp) {
   //   console.log('ウルトラマンポーズ')
-  // }
-  if ((checkParamX('leftElbow', 'leftShoulder') && (checkParamY('leftElbow', 'leftShoulder')) || (checkParamX('leftWrist', 'leftShoulder') && checkParamY('leftWrist', 'leftShoulder'))) && ((checkParamX('rightShoulder', 'rightElbow') && checkParamY('rightElbow', 'rightShoulder')) || ((checkParamX('rightShoulder', 'rightWrist') && checkParamY('rightWrist', 'rightShoulder'))))) {
+  } else if (isLeftHandUp && isRightHandUp) {
     console.log('両手上げている')
-  } else if ((checkParamX('leftElbow', 'leftShoulder') && (checkParamY('leftElbow', 'leftShoulder')) || (checkParamX('leftWrist', 'leftShoulder') && checkParamY('leftWrist', 'leftShoulder')))) {
+  } else if (isLeftHandUp) {
     console.log('左手上げている')
-  } else if ((checkParamX('rightShoulder', 'rightElbow') && checkParamY('rightElbow', 'rightShoulder')) || ((checkParamX('rightShoulder', 'rightWrist') && checkParamY('rightWrist', 'rightShoulder')))) {
+  } else if (isRightHandUp) {
     console.log('右手上げている')
   }
 }
